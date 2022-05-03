@@ -1,0 +1,54 @@
+<html>
+    <!--DRG-->
+    <head>
+        {% load static %}
+        <link rel="stylesheet" href="{% static "bootstrap.min.css" %}">
+        <link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}"/>
+        <style>
+            body {
+                background-color: rgb(221 246 254);
+            }
+            .grey {
+                background-color: rgb(255 255 255);
+            }
+            #img {
+                height: 45px;
+            }
+        </style>
+        <script src="{% static "jquery-2.2.4.min.js" %}"></script>
+        <script src="{% static "form-loader.js" %}"></script>
+    </head>
+    <body>
+
+        <div class="container pt-5">
+            <h2>Clasificador de prendas de ropa FASHION-MNIST</h2>
+            <p>Gracias a técnicas de inteligencia artificial con redes neuronales podemos determinar la prensa en una imagen.</p>
+        </div>
+        
+        <div class="container">
+            <div id="error" class="row mb-2"></div>
+        </div>
+
+        <div class="container">
+            <form method="POST" id="post-form" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <div class="row form-group">
+                    <div class="col-12">
+                        <label for="img" class="form-label">Cargue aquí la imagen que quiere clasificar</label>
+                        <input required class="form-control" type="file" id="img" name="img" accept="image/*"/>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Clasificar prenda en mi imagen</button>
+
+            </form>
+        </div>
+        
+        <div class="container">
+            <div id="response" class="row mb-2"></div>
+        </div>
+
+    </body>
+
+</html>
