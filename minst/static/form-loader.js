@@ -61,7 +61,16 @@ window.minst = {
             '</div>';
     },
 
+    progress: function (turn){
+        if(turn) {
+            $(".progress").removeClass('oculto');
+        } else {
+            $(".progress").addClass('oculto');
+        }
+    },
+
     myRequestAndDo: function (pType, pUrl, pData, pOkeyDo) {
+        minst.progress(true);
         $.ajax({
             type: pType,
             url: pUrl,
@@ -72,6 +81,7 @@ window.minst = {
             data: new FormData($('#post-form')[0]),
             success: function (json) {
                 pOkeyDo(json);
+                minst.progress(false);
             },
             error: function (xhr, errmsg, err) {
                 $('#error').html("<div class='alert alert-danger' data-alert>Oops! We have encountered an error: <p>"

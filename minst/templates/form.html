@@ -24,6 +24,42 @@
             .table td, .table th {
                 padding: 0.25rem 1.25rem 0.25rem 1.25rem;
             }
+            .progress{
+                position: fixed;
+                top: 25px;
+                left: 25px;
+                height: 20px;
+                width: 150px;
+                border: 6px solid #1ec223;
+            }
+            .progress .color{
+                position: absolute;
+                background-color: #ffffff;
+                width: 0px;
+                height: 10px;
+                border-radius: 15px;
+                animation: progres 4s infinite linear;    
+            }
+            .oculto {
+                display: none;
+            }
+            @keyframes progres{
+                0%{
+                  width: 0%;
+                }
+                25%{
+                    width: 50%;
+                }
+                50%{
+                    width: 75%;
+                }
+                75%{
+                    width: 85%;
+                }
+                100%{
+                    width: 100%;
+                }
+            };
         </style>
         <script src="{% static "jquery-2.2.4.min.js" %}"></script>
         <script src="{% static "form-loader.js" %}"></script>
@@ -58,6 +94,8 @@
         <div class="container">
             <div id="response" class="row mb-2"></div>
         </div>
+        
+        <div class="progress oculto"><div class="color"></div></div>
 
     </body>
 
