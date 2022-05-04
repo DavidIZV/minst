@@ -24,8 +24,8 @@ def form(request):
 
 def prediction(request):
     img_name, full_path, complete=read_image(request)
-    prediction_models=get_neural_network_predictions(full_path)
-    json_response={'prediction_models': prediction_models, 'img_name': img_name, 'full_path': full_path, 'complete': complete}
+    prediction_models,prediction_models_acc=get_neural_network_predictions(full_path)
+    json_response={'prediction_models': prediction_models, 'prediction_models_acc': prediction_models_acc, 'img_name': img_name, 'full_path': full_path, 'complete': complete}
     return JsonResponse(json_response, safe=False)
 
 def read_image(request):

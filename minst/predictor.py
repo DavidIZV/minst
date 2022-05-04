@@ -27,17 +27,18 @@ def read_image_as_numpy_and_normalize(img_name):
     return img
 
 def predict_with_models(models, img):
-    models_predictions,cont={},0
+    models_predictions,models_predictions_acc,cont={},{},0
     for model in models:
         predict=model.predict([img])
         index_name=np.argmax(predict[0])
         print(index_name)
-        # return str(index_name)
         clothes=class_names[index_name]
         model_id=str(cont)+"_"+str(model.__class__.__name__)
         models_predictions[model_id]=clothes
+        acc=round(100*np.max(predict[0]), 2)
+        models_predictions_acc[model_id + '_acc']=acc
         cont=cont+1
-    return models_predictions
+    return models_predictions, models_predictions_acc
 
 def get_list_loads_models(models_names):
     models=[]

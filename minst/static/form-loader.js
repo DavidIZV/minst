@@ -21,21 +21,21 @@ window.minst = {
     },
 
     renderStimation: function (json) {
-        var predictions = minst.createPredictionsDataParagraph(json.prediction_models, 'col-md-4')
-        var image = minst.createImage(json, 'col-md-8')
+        var predictions = minst.createPredictionsDataParagraph(json.prediction_models, json.prediction_models_acc, 'col-md-8')
+        var image = minst.createImage(json, 'col-md-4')
         $("#response").prepend(minst.createDataStructure(predictions, image))
     },
 
-    createPredictionsDataParagraph: function (json, spaceClass) {
-        var prediction_models = ""
+    createPredictionsDataParagraph: function (json, json_acc, spaceClass) {
+        var prediction_models = "<table class='table table-striped " + spaceClass + "'><tr><th>Nombre modelo</th><th>Categoria</th><th>Seguridad</th></tr>"
         if (json != null) {
             Object.keys(json).forEach(function (key) {
-                prediction_models = prediction_models + "<p class='" + spaceClass + "'>" + key + ": " + json[key] + "</p>"
+                prediction_models += "<tr><td>" + key + "</td><td>" + json[key] + "</td><td>" + json_acc[key + '_acc'] + " %</td></tr>"
             });
         } else {
-            prediction_models = "Predicciones no disponibles"
+            prediction_models += "Predicciones no disponibles"
         }
-        return prediction_models
+        return prediction_models + "</table>"
     },
 
     createImage: function (json, spaceClass) {
@@ -49,7 +49,7 @@ window.minst = {
     },
 
     createDataStructure: function (predictions, image) {
-        return '<div class="col-md-6">' +
+        return '<div class="col-md-12">' +
             '<div class="no-gutters grey border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative p-2">' +
             '<a href="#" onclick="$(this).parent().remove();return false;" class="close">&times;</a>' +
             '<h4 class="mb-2 mt-3">Predicciones de los modelos</h4>' +
