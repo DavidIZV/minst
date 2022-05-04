@@ -31,7 +31,6 @@ def predict_with_models(models, img):
     for model in models:
         predict=model.predict([img])
         index_name=np.argmax(predict[0])
-        print(index_name)
         clothes=class_names[index_name]
         model_id=str(cont)+"_"+str(model.__class__.__name__)
         models_predictions[model_id]=clothes

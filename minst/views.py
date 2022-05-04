@@ -42,7 +42,6 @@ def read_image(request):
             complete=form.errors
     else:
         form = UploadFileForm()
-        print("No es post")
     return None, None, complete
 
 def handle_uploaded_file(f):
@@ -51,7 +50,6 @@ def handle_uploaded_file(f):
     if os.path.exists(full_path_tmp) == False:
         os.makedirs(full_path_tmp)
     full_path=full_path_tmp + "/" + img_name
-    print(img_name)
     with open(full_path, 'wb+') as destination:
         for chunk in f.chunks():
             destination.write(chunk)
