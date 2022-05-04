@@ -22,7 +22,8 @@ window.minst = {
 
     renderStimation: function (json) {
         var predictions = minst.createPredictionsDataParagraph(json.prediction_models, 'col-md-4')
-        $("#response").prepend(minst.createDataStructure(predictions))
+        var image = minst.createImage(json, 'col-md-8')
+        $("#response").prepend(minst.createDataStructure(predictions, image))
     },
 
     createPredictionsDataParagraph: function (json, spaceClass) {
@@ -37,12 +38,23 @@ window.minst = {
         return prediction_models
     },
 
-    createDataStructure: function (predictions) {
+    createImage: function (json, spaceClass) {
+        var image_div = ""
+        if (json != null) {
+            image_div = "<img class='limited col-md-4' src='/static/tmp/" + json['img_name'] + "'/>"
+        } else {
+            image_div = "Imagen no disponible"
+        }
+        return image_div
+    },
+
+    createDataStructure: function (predictions, image) {
         return '<div class="col-md-6">' +
             '<div class="no-gutters grey border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative p-2">' +
             '<a href="#" onclick="$(this).parent().remove();return false;" class="close">&times;</a>' +
             '<h4 class="mb-2 mt-3">Predicciones de los modelos</h4>' +
             '<div class="ml-1 col-md-12 border row">' +
+            image +
             predictions +
             '</div>' +
             '</div>' +

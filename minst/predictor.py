@@ -19,7 +19,7 @@ def get_neural_network_predictions(img_name):
 
 def read_image_as_numpy_and_normalize(img_name):
     img=Image.open(img_name)
-    # img=img.resize((28, 28))
+    img=img.resize((28, 28))
     img=img.resize((img.height, img.height))
     img=asarray(img)
     img=img.reshape(-1, 28 * 28)
