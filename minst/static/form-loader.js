@@ -82,11 +82,13 @@ window.minst = {
             success: function (json) {
                 pOkeyDo(json);
                 minst.progress(false);
+                $('#error').remove();
             },
             error: function (xhr, errmsg, err) {
+                minst.progress(false);
                 $('#error').html("<div class='alert alert-danger' data-alert>Oops! We have encountered an error: <p>"
                     + xhr.status + "</p> <a href='#' onclick='$(this).parent().remove()' class='close'>&times;</a></div>");
-                console.log(xhr.status + ": " + xhr.responseText);
+                //console.log(xhr.status + ": " + xhr.responseText);
             }
         });
     }
