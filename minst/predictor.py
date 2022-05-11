@@ -22,9 +22,12 @@ def get_neural_network_predictions(img_name):
 
 def read_image_as_numpy_and_normalize(img_name):
     
-    img=cv2.imread(f""+img_name,0)
-    img = cv2.bitwise_not(img)
-
+    img = Image.open(img_name)
+    img=img.convert('L')
+    img.save('tmp.png')
+    
+    img=cv2.imread(f"tmp.png",0)
+    img=np.array(img, dtype=np.uint8)
     img = tf.expand_dims(img, -1)
     img = tf.image.resize(img, [28, 28])
     img = tf.reshape(img, [1, 28, 28, 1])
@@ -52,7 +55,7 @@ def get_list_loads_models(models_names):
     models=[]
     for model_name in models_names:
         model=keras.models.load_model(model_name)
-        model=keras.Sequential([model, keras.layers.Softmax()])
+        model=keras.Sequential(model)
         models.append(model)
     return models
 
