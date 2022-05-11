@@ -7,6 +7,9 @@ import numpy as np
 from PIL import Image
 from numpy import asarray
 from tensorflow import keras
+from PIL import ImageOps
+import cv2
+import tensorflow as tf
 
 class_names = ['T-shirt/top', 'Trouser', 'Pullover', 'Dress', 'Coat', 'Sandal', 'Shirt', 'Sneaker', 'Bag', 'Ankle boot']
 (train_images, train_labels), (test_images, test_labels) = keras.datasets.mnist.load_data()
@@ -18,25 +21,31 @@ def get_neural_network_predictions(img_name):
     return predict_with_models(models, img)
 
 def read_image_as_numpy_and_normalize(img_name):
-    img=Image.open(img_name)
-    img=img.resize((28, 28))
-    img=img.resize((img.height, img.height))
-    img=asarray(img)
-    img=img.reshape(-1, 28 * 28)
-    img=img/255.0
+    
+    img=cv2.imread(f""+img_name,0)
+    img = cv2.bitwise_not(img)
+
+    img = tf.expand_dims(img, -1)
+    img = tf.image.resize(img, [28, 28])
+    img = tf.reshape(img, [1, 28, 28, 1])
+    img = tf.divide(img, 255)
+    
     return img
 
 def predict_with_models(models, img):
     models_predictions,models_predictions_acc,cont={},{},0
     for model in models:
-        predict=model.predict([img])
-        index_name=np.argmax(predict[0])
-        clothes=class_names[index_name]
-        model_id=str(cont)+"_"+str(model.__class__.__name__)
-        models_predictions[model_id]=clothes
-        acc=round(100*np.max(predict[0]), 2)
-        models_predictions_acc[model_id + '_acc']=acc
-        cont=cont+1
+        try:
+            predict=model.predict(img)
+            index_name=np.argmax(predict)
+            clothes=class_names[index_name]
+            model_id=str(cont)+"_"+str(model.__class__.__name__)
+            models_predictions[model_id]=clothes
+            acc=round(100*np.max(predict), 2)
+            models_predictions_acc[model_id + '_acc']=acc
+            cont=cont+1
+        except:
+            print(2)
     return models_predictions, models_predictions_acc
 
 def get_list_loads_models(models_names):
